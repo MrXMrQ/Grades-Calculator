@@ -1,30 +1,30 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Calculator {
+    MyFrame myFrame;
+    JPanel panelNORTH;
+    JPanel panelCENTER;
+    int count = 2;
     private ArrayList<String> subjects = new ArrayList<>();
-    private ArrayList<Grade> grades = new ArrayList<>();
+    private final ArrayList<Grade> grades = new ArrayList<>();
     private final Font inter = new Font("Inter", Font.PLAIN, 37);
     private boolean lk = false;
+    private JComboBox<String> comboBox;
 
     Calculator() {
-        calculator();
-    }
-
-    private void calculator() {
+        myFrame = new MyFrame();
         subjects = addSubjects(subjects);
 
-        MyFrame myFrame = new MyFrame();
-
-        JPanel panelNORTH = addComponentsNORTH(new JPanel());
-        JPanel panelCENTER = addComponentsCENTER(new JPanel());
+        panelNORTH = addComponentsNORTH(new JPanel());
+        panelCENTER = addComponentsCENTER(new JPanel());
 
         myFrame.add(panelNORTH, BorderLayout.NORTH);
         myFrame.add(panelCENTER, BorderLayout.CENTER);
-
     }
 
     public ArrayList<String> addSubjects(ArrayList<String> subjects) {
@@ -43,65 +43,124 @@ public class Calculator {
     }
 
     public JPanel addComponentsNORTH(JPanel panel) {
-        JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        tempPanel.setPreferredSize(new Dimension(350, 60));
+        JPanel flowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        flowPanel.setPreferredSize(new Dimension(300, 60));
 
-        JComboBox<String> comboBox = new JComboBox<>();
-        for (String item : subjects) {
-            comboBox.addItem(item);
-        }
-        comboBox.setPreferredSize(new Dimension(227, 50));
+        comboBox = new JComboBox<>();
+        addSubjects();
+        comboBox.setPreferredSize(new Dimension(200, 50));
         comboBox.setFont(inter);
 
         JCheckBox checkBox = new JCheckBox("LK");
-        checkBox.setPreferredSize(new Dimension(100, 50));
+        checkBox.setPreferredSize(new Dimension(85, 50));
         checkBox.setFont(inter);
 
-        checkBox.addActionListener(new ActionListener() {
+        checkBox.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Check if the JCheckBox is selected
                 lk = checkBox.isSelected();
-
             }
         });
 
-        tempPanel.add(comboBox);
-        tempPanel.add(checkBox);
+        flowPanel.add(comboBox);
+        flowPanel.add(checkBox);
 
-        panel.add(tempPanel);
+        panel.add(flowPanel);
 
         return panel;
     }
 
     public JPanel addComponentsCENTER(JPanel panel) {
-        JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        tempPanel.setPreferredSize(new Dimension(350, 60));
+        JPanel flowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        flowPanel.setPreferredSize(new Dimension(300, 130));
 
         JLabel label = new JLabel("Notenpunkt:", SwingConstants.LEFT);
-        label.setPreferredSize(new Dimension(227, 50));
+        label.setPreferredSize(new Dimension(230, 50));
         label.setFont(inter);
 
         JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(50, 50));
         textField.setFont(inter);
 
-        textField.addActionListener(new AbstractAction() {
+        textField.addKeyListener(new KeyAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                int grade = Integer.parseInt(textField.getText());
-                if(grade >= 1 && grade <= 15) {
-                    grades.add(new Grade(grade, lk));
+            public void keyTyped(KeyEvent e) {
+                char input = e.getKeyChar();
+                if (!Character.isDigit(input)) e.consume();
+
+            }
+        });
+
+        textField.addActionListener(e -> {
+            String input = textField.getText().trim();
+            if (input.isEmpty()) {
+                JOptionPane.showMessageDialog(myFrame, "Das Feld darf nicht leer sein!");
+            } else {
+                try {
+                    if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 15) {
+                        grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
+                        if (lk && count >= 1) {
+                            grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
+                            count--;
+                        } else if (lk) {
+                            JOptionPane.showMessageDialog(myFrame, "Es wurden bereits zwei LK´s festgelegt!");
+                        }
+                        textField.setText("");
+                    } else {
+                        textField.setText("");
+                        JOptionPane.showMessageDialog(myFrame, "Die Zahl muss in dem Bereich 1 - 15 liegen!");
+                    }
+                } catch (NumberFormatException ex) {
                     textField.setText("");
+                    JOptionPane.showMessageDialog(myFrame, "Die Zahl muss in dem Bereich 1 - 15 liegen!");
                 }
             }
         });
 
-        tempPanel.add(label);
-        tempPanel.add(textField);
+        JButton submitButton = new JButton("submit");
+        submitButton.setPreferredSize(new Dimension(285, 50));
+        submitButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (count < 1) {
+                    myFrame.remove(panelNORTH);
+                    myFrame.remove(panelCENTER);
+                    SwingUtilities.updateComponentTreeUI(myFrame);
+                    calculator();
+                } else {
+                    JOptionPane.showMessageDialog(myFrame, "Wähle noch " + count + " LK/LK´s!");
+                }
+            }
+        });
+        submitButton.setFont(inter);
 
-        panel.add(tempPanel);
+        flowPanel.add(label);
+        flowPanel.add(textField);
+        flowPanel.add(submitButton, Component.CENTER_ALIGNMENT);
+        panel.add(flowPanel);
 
         return panel;
+    }
+
+    private void addSubjects() {
+        for (String item : subjects) {
+            comboBox.addItem(item);
+        }
+    }
+
+    private void calculator() {
+        double sum = 0;
+        for (int i = 0; i < grades.size(); i++) {
+            System.out.println(grades.get(i).getGrade());
+            sum += grades.get(i).getGrade();
+        }
+
+        panelNORTH.removeAll();
+        JLabel label = new JLabel("Notendurchschnitt: " + sum / grades.size());
+        label.setFont(inter);
+
+        panelNORTH.add(label);
+        myFrame.add(panelNORTH, BorderLayout.NORTH);
+        SwingUtilities.updateComponentTreeUI(myFrame);
     }
 }
