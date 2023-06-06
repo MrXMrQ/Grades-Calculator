@@ -151,7 +151,6 @@ public class Calculator {
     private void calculator() {
         double sum = 0;
         for (int i = 0; i < grades.size(); i++) {
-            System.out.println(grades.get(i).getGrade());
             sum += grades.get(i).getGrade();
         }
 
