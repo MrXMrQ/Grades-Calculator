@@ -12,4 +12,8 @@ public class Grade {
     public int getGrade() {
         return grade;
     }
+
+    public String getSubject() {
+        return subject;
+    }
 }

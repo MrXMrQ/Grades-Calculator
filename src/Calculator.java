@@ -9,7 +9,12 @@ public class Calculator {
     MyFrame myFrame;
     JPanel panelNORTH;
     JPanel panelCENTER;
+    JLabel labelTable;
+
     int count = 2;
+    int gradeCount = 0;
+    String text = "";
+
     private ArrayList<String> subjects = new ArrayList<>();
     private final ArrayList<Grade> grades = new ArrayList<>();
     private final Font inter = new Font("Inter", Font.PLAIN, 37);
@@ -25,6 +30,8 @@ public class Calculator {
 
         myFrame.add(panelNORTH, BorderLayout.NORTH);
         myFrame.add(panelCENTER, BorderLayout.CENTER);
+
+        myFrame.setVisible(true);
     }
 
     public ArrayList<String> addSubjects(ArrayList<String> subjects) {
@@ -36,7 +43,7 @@ public class Calculator {
         subjects.add("Sport");
         subjects.add("Biologie");
         subjects.add("Gesellschaftslehre");
-        subjects.add("Betreibwirtschaftslehre");
+        subjects.add("Betriebwirtschaftslehre");
         subjects.add("Religion");
 
         return subjects;
@@ -72,7 +79,7 @@ public class Calculator {
 
     public JPanel addComponentsCENTER(JPanel panel) {
         JPanel flowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        flowPanel.setPreferredSize(new Dimension(300, 130));
+        flowPanel.setPreferredSize(new Dimension(300, 400));
 
         JLabel label = new JLabel("Notenpunkt:", SwingConstants.LEFT);
         label.setPreferredSize(new Dimension(230, 50));
@@ -99,6 +106,9 @@ public class Calculator {
                 try {
                     if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 15) {
                         grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
+                        text += "<html><br>" + grades.get(gradeCount).getSubject() + ": " + grades.get(gradeCount).getGrade() + "<html>";
+                        labelTable.setText(text);
+                        gradeCount++;
                         if (lk && count >= 1) {
                             grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
                             count--;
@@ -134,9 +144,14 @@ public class Calculator {
         });
         submitButton.setFont(inter);
 
+        labelTable = new JLabel("text");
+        labelTable.setPreferredSize(new Dimension(300,300));
+
         flowPanel.add(label);
         flowPanel.add(textField);
-        flowPanel.add(submitButton, Component.CENTER_ALIGNMENT);
+        flowPanel.add(submitButton,Component.CENTER_ALIGNMENT);
+        flowPanel.add(labelTable, Component.TOP_ALIGNMENT);
+
         panel.add(flowPanel);
 
         return panel;
@@ -161,5 +176,9 @@ public class Calculator {
         panelNORTH.add(label);
         myFrame.add(panelNORTH, BorderLayout.NORTH);
         SwingUtilities.updateComponentTreeUI(myFrame);
+    }
+
+    private void setText(String text) {
+
     }
 }
