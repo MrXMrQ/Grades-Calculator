@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Calculator {
@@ -11,8 +12,7 @@ public class Calculator {
     JPanel panelCENTER;
     JLabel labelTable;
 
-    int count = 2;
-    int gradeCount = 0;
+    int lkCount = 2;
     String text = "";
 
     private ArrayList<String> subjects = new ArrayList<>();
@@ -94,7 +94,6 @@ public class Calculator {
             public void keyTyped(KeyEvent e) {
                 char input = e.getKeyChar();
                 if (!Character.isDigit(input)) e.consume();
-
             }
         });
 
@@ -105,18 +104,25 @@ public class Calculator {
             } else {
                 try {
                     if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 15) {
-                        grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
-                        text += "<html><br>" + grades.get(gradeCount).getSubject() + ": " + grades.get(gradeCount).getGrade() + " " + grades.get(gradeCount).isLk() + "<html>";
-                        labelTable.setText(text);
-                        gradeCount++;
-                        if (lk && count >= 1) {
-                            grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
-                            gradeCount++;
-                            count--;
-                        } else if (lk) {
-                            JOptionPane.showMessageDialog(myFrame, "Es wurden bereits zwei LK´s festgelegt!");
+                        if (comboBox.getItemCount() == 0) {
+                            JOptionPane.showMessageDialog(myFrame, "Alle Fächer wurden vergeben!");
+                            textField.setText("");
+                        } else {
+                            if (lk && lkCount >= 1) {
+                                grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
+                                grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
+                                setText();
+                                lkCount--;
+                            } else if (lk) {
+                                JOptionPane.showMessageDialog(myFrame, "Es wurden bereits zwei LK´s festgelegt!");
+                            } else {
+                                grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
+                                setText();
+                            }
+                            textField.setText("");
+                            String subject = (String) comboBox.getSelectedItem();
+                            comboBox.removeItem(subject);
                         }
-                        textField.setText("");
                     } else {
                         textField.setText("");
                         JOptionPane.showMessageDialog(myFrame, "Die Zahl muss in dem Bereich 1 - 15 liegen!");
@@ -133,24 +139,25 @@ public class Calculator {
         submitButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (count < 1) {
+                if (lkCount < 1) {
                     myFrame.remove(panelNORTH);
                     myFrame.remove(panelCENTER);
+                    panelCENTER.removeAll();
                     SwingUtilities.updateComponentTreeUI(myFrame);
                     calculator();
                 } else {
-                    JOptionPane.showMessageDialog(myFrame, "Wähle noch " + count + " LK/LK´s!");
+                    JOptionPane.showMessageDialog(myFrame, "Wähle noch " + lkCount + " LK/LK´s!");
                 }
             }
         });
         submitButton.setFont(inter);
 
         labelTable = new JLabel();
-        labelTable.setPreferredSize(new Dimension(285,300));
+        labelTable.setFont(new Font("Inter", Font.PLAIN, 18));
 
         flowPanel.add(label);
         flowPanel.add(textField);
-        flowPanel.add(submitButton,Component.CENTER_ALIGNMENT);
+        flowPanel.add(submitButton, Component.CENTER_ALIGNMENT);
         flowPanel.add(labelTable, Component.TOP_ALIGNMENT);
 
         panel.add(flowPanel);
@@ -171,15 +178,32 @@ public class Calculator {
         }
 
         panelNORTH.removeAll();
-        JLabel label = new JLabel("Notendurchschnitt: " + sum / grades.size());
+
+        sum = sum / grades.size();
+        sum = (17 - sum) / 3;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        String formattedSum = df.format(sum);
+
+        JLabel label = new JLabel("Notendurchschnitt: " + formattedSum);
         label.setFont(inter);
 
         panelNORTH.add(label);
+        panelCENTER.add(labelTable);
         myFrame.add(panelNORTH, BorderLayout.NORTH);
+        myFrame.add(panelCENTER, BorderLayout.CENTER);
         SwingUtilities.updateComponentTreeUI(myFrame);
     }
 
-    private void setText(String text) {
+    private void setText() {
+        String LK;
+        if (grades.get(grades.size() - 1).isLk()) {
+            LK = "LK";
+        } else {
+            LK = "";
+        }
 
+        text += "<html><br>" + grades.get(grades.size() - 1).getSubject() + ": " + grades.get(grades.size() - 1).getGrade() + " " + LK + "<html>";
+        labelTable.setText(text);
     }
 }
