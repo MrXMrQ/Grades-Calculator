@@ -16,4 +16,8 @@ public class Grade {
     public String getSubject() {
         return subject;
     }
+
+    public boolean isLk() {
+        return lk;
+    }
 }

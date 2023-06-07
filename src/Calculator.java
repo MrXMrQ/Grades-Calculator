@@ -106,11 +106,12 @@ public class Calculator {
                 try {
                     if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 15) {
                         grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
-                        text += "<html><br>" + grades.get(gradeCount).getSubject() + ": " + grades.get(gradeCount).getGrade() + "<html>";
+                        text += "<html><br>" + grades.get(gradeCount).getSubject() + ": " + grades.get(gradeCount).getGrade() + " " + grades.get(gradeCount).isLk() + "<html>";
                         labelTable.setText(text);
                         gradeCount++;
                         if (lk && count >= 1) {
                             grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
+                            gradeCount++;
                             count--;
                         } else if (lk) {
                             JOptionPane.showMessageDialog(myFrame, "Es wurden bereits zwei LK´s festgelegt!");
@@ -144,8 +145,8 @@ public class Calculator {
         });
         submitButton.setFont(inter);
 
-        labelTable = new JLabel("text");
-        labelTable.setPreferredSize(new Dimension(300,300));
+        labelTable = new JLabel();
+        labelTable.setPreferredSize(new Dimension(285,300));
 
         flowPanel.add(label);
         flowPanel.add(textField);
