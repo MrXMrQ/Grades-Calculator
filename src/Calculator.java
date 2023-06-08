@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -17,7 +18,7 @@ public class Calculator {
 
     private ArrayList<String> subjects = new ArrayList<>();
     private final ArrayList<Grade> grades = new ArrayList<>();
-    private final Font inter = new Font("Inter", Font.PLAIN, 37);
+    private final Font inter = new Font("Inter", Font.PLAIN, 25);
     private boolean lk = false;
     private JComboBox<String> comboBox;
 
@@ -57,6 +58,7 @@ public class Calculator {
         addSubjects();
         comboBox.setPreferredSize(new Dimension(200, 50));
         comboBox.setFont(inter);
+        comboBox.setBorder(new LineBorder(Color.BLACK, 1));
 
         JCheckBox checkBox = new JCheckBox("LK");
         checkBox.setPreferredSize(new Dimension(85, 50));
@@ -85,9 +87,11 @@ public class Calculator {
         label.setPreferredSize(new Dimension(230, 50));
         label.setFont(inter);
 
-        JTextField textField = new JTextField();
+        RoundedTextField textField = new RoundedTextField(285,50);
+
+        /*JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(50, 50));
-        textField.setFont(inter);
+        textField.setFont(inter);*/
 
         textField.addKeyListener(new KeyAdapter() {
             @Override
@@ -134,8 +138,7 @@ public class Calculator {
             }
         });
 
-        JButton submitButton = new JButton("submit");
-        submitButton.setPreferredSize(new Dimension(285, 50));
+        RoundedGradientButton submitButton = new RoundedGradientButton("submit", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, 285, 50);
         submitButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -150,7 +153,6 @@ public class Calculator {
                 }
             }
         });
-        submitButton.setFont(inter);
 
         labelTable = new JLabel();
         labelTable.setFont(new Font("Inter", Font.PLAIN, 18));
