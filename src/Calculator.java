@@ -89,10 +89,6 @@ public class Calculator {
 
         RoundedTextField textField = new RoundedTextField(285,50);
 
-        /*JTextField textField = new JTextField();
-        textField.setPreferredSize(new Dimension(50, 50));
-        textField.setFont(inter);*/
-
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {

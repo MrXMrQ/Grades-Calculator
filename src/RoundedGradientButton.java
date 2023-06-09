@@ -63,7 +63,7 @@ public class RoundedGradientButton extends JButton {
 
         // Draw button background
         if (isPressed) {
-            g2d.setColor(new Color(0, 255, 0, 100));
+            g2d.setColor(new Color(124, 61, 138, 255));
         } else {
             GradientPaint gradientPaint = new GradientPaint(0, 0, startColor, width, height, endColor);
             g2d.setPaint(gradientPaint);
