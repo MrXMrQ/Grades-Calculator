@@ -1,20 +1,18 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Calculator {
-    MyFrame myFrame;
-    JPanel panelNORTH;
-    JPanel panelCENTER;
-    JLabel labelTable;
+    private final MyFrame myFrame;
+    private final JPanel panelNORTH;
+    private final JPanel panelCENTER;
+    private JLabel labelTable;
 
-    int lkCount = 2;
-    String text = "";
+    private int lkCount = 2;
+    private String text = "";
 
     private ArrayList<String> subjects = new ArrayList<>();
     private final ArrayList<Grade> grades = new ArrayList<>();
@@ -60,14 +58,18 @@ public class Calculator {
         comboBox.setFont(inter);
         comboBox.setBorder(new LineBorder(Color.BLACK, 1));
 
-        JCheckBox checkBox = new JCheckBox("LK");
-        checkBox.setPreferredSize(new Dimension(85, 50));
-        checkBox.setFont(inter);
-
+        RoundedGradientButton checkBox = new RoundedGradientButton("LK", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, new Color(104, 35, 128), 85, 50);
         checkBox.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lk = checkBox.isSelected();
+                if (!lk) {
+                    checkBox.setColor(new Color(0, 100, 0), new Color(0, 255, 0));
+                    lk = true;
+                } else {
+                    checkBox.setColor(new Color(142, 68, 173), new Color(155, 89, 182));
+                    lk = false;
+                }
+
             }
         });
 
@@ -81,13 +83,13 @@ public class Calculator {
 
     public JPanel addComponentsCENTER(JPanel panel) {
         JPanel flowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        flowPanel.setPreferredSize(new Dimension(300, 400));
+        flowPanel.setPreferredSize(new Dimension(300, 500));
 
-        JLabel label = new JLabel("Notenpunkt:", SwingConstants.LEFT);
-        label.setPreferredSize(new Dimension(230, 50));
-        label.setFont(inter);
+        JLabel textGradePoint = new JLabel("Notenpunkt:", SwingConstants.LEFT);
+        textGradePoint.setPreferredSize(new Dimension(230, 50));
+        textGradePoint.setFont(new Font("inter", Font.BOLD, 25));
 
-        RoundedTextField textField = new RoundedTextField(285,50);
+        RoundedTextField textField = new RoundedTextField(285, 50);
 
         textField.addKeyListener(new KeyAdapter() {
             @Override
@@ -112,16 +114,14 @@ public class Calculator {
                                 grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
                                 grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
                                 setText();
+                                removeContent();
                                 lkCount--;
-                                String subject = (String) comboBox.getSelectedItem();
-                                comboBox.removeItem(subject);
                             } else if (lk) {
                                 JOptionPane.showMessageDialog(myFrame, "Es wurden bereits zwei LK´s festgelegt!");
                             } else {
                                 grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
                                 setText();
-                                String subject = (String) comboBox.getSelectedItem();
-                                comboBox.removeItem(subject);
+                                removeContent();
                             }
                             textField.setText("");
 
@@ -137,7 +137,7 @@ public class Calculator {
             }
         });
 
-        RoundedGradientButton submitButton = new RoundedGradientButton("submit", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, 285, 50);
+        RoundedGradientButton submitButton = new RoundedGradientButton("submit", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, new Color(104, 35, 128), 285, 50);
         submitButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -155,8 +155,9 @@ public class Calculator {
 
         labelTable = new JLabel();
         labelTable.setFont(new Font("Inter", Font.PLAIN, 18));
+        labelTable.setBorder(new LineBorder(Color.BLACK, 5));
 
-        flowPanel.add(label);
+        flowPanel.add(textGradePoint);
         flowPanel.add(textField);
         flowPanel.add(submitButton, Component.CENTER_ALIGNMENT);
         flowPanel.add(labelTable, Component.TOP_ALIGNMENT);
@@ -183,7 +184,7 @@ public class Calculator {
         sum = sum / grades.size();
         sum = (17 - sum) / 3;
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.#");
         String formattedSum = df.format(sum);
 
         JLabel label = new JLabel("Notendurchschnitt: " + formattedSum);
@@ -206,5 +207,10 @@ public class Calculator {
 
         text += "<html><br>" + grades.get(grades.size() - 1).getSubject() + ": " + grades.get(grades.size() - 1).getGrade() + " " + LK + "<html>";
         labelTable.setText(text);
+    }
+
+    private void removeContent() {
+        String subject = (String) comboBox.getSelectedItem();
+        comboBox.removeItem(subject);
     }
 }

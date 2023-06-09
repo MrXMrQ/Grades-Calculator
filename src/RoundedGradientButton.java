@@ -10,16 +10,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class RoundedGradientButton extends JButton {
-    private final Color startColor;
-    private final Color endColor;
+    private Color startColor;
+    private Color endColor;
     private final Color textColor;
+    private final Color pressedColor;
     private boolean isPressed;
 
-    public RoundedGradientButton(String label, Color startColor, Color endColor, Color textColor, int width, int height) {
+    public RoundedGradientButton(String label, Color startColor, Color endColor, Color textColor, Color pressedColor, int width, int height) {
         super(label);
         this.startColor = startColor;
         this.endColor = endColor;
         this.textColor = textColor;
+        this.pressedColor = pressedColor;
         setOpaque(false);
         setContentAreaFilled(false);
         setBorderPainted(false);
@@ -63,7 +65,7 @@ public class RoundedGradientButton extends JButton {
 
         // Draw button background
         if (isPressed) {
-            g2d.setColor(new Color(124, 61, 138, 255));
+            g2d.setColor(pressedColor);
         } else {
             GradientPaint gradientPaint = new GradientPaint(0, 0, startColor, width, height, endColor);
             g2d.setPaint(gradientPaint);
@@ -80,5 +82,10 @@ public class RoundedGradientButton extends JButton {
         g2d.drawString(getText(), x, y);
 
         g2d.dispose();
+    }
+
+    public void setColor(Color startColor, Color endColor) {
+        this.startColor = startColor;
+        this.endColor = endColor;
     }
 }
