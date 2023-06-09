@@ -113,15 +113,18 @@ public class Calculator {
                                 grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
                                 setText();
                                 lkCount--;
+                                String subject = (String) comboBox.getSelectedItem();
+                                comboBox.removeItem(subject);
                             } else if (lk) {
                                 JOptionPane.showMessageDialog(myFrame, "Es wurden bereits zwei LK´s festgelegt!");
                             } else {
                                 grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
                                 setText();
+                                String subject = (String) comboBox.getSelectedItem();
+                                comboBox.removeItem(subject);
                             }
                             textField.setText("");
-                            String subject = (String) comboBox.getSelectedItem();
-                            comboBox.removeItem(subject);
+
                         }
                     } else {
                         textField.setText("");
