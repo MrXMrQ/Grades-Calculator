@@ -1,7 +1,9 @@
+package Objects;
+
 import javax.swing.*;
 
 public class MyFrame extends JFrame {
-    MyFrame() {
+    public MyFrame() {
         setTitle("Grades calculator");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500,500);

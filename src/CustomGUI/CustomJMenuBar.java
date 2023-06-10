@@ -1,3 +1,5 @@
+package CustomGUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,7 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
-class CustomJMenuBar extends JMenuBar {
+public class CustomJMenuBar extends JMenuBar {
     private final Color startColor;
     private final Color endColor;
 
@@ -14,19 +16,19 @@ class CustomJMenuBar extends JMenuBar {
         this.startColor = startColor;
         this.endColor = endColor;
 
-        JMenu fileMenu = new JMenu("info");
-        fileMenu.setForeground(Color.WHITE);
-        fileMenu.setFont(new Font("Inter", Font.BOLD, 15));
+        JMenu infoMenu = new JMenu("Info");
+        infoMenu.setForeground(Color.WHITE);
+        infoMenu.setFont(new Font("Inter", Font.BOLD, 15));
 
-        fileMenu.addMouseListener(new MouseAdapter() {
+        infoMenu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                fileMenu.setForeground(new Color(0, 255, 0));
+                infoMenu.setForeground(new Color(0, 255, 0));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                fileMenu.setForeground(Color.WHITE);
+                infoMenu.setForeground(Color.WHITE);
             }
         });
 
@@ -50,12 +52,30 @@ class CustomJMenuBar extends JMenuBar {
 
         menuItemExit.addActionListener(e -> System.exit(0));
 
-        fileMenu.add(menuItemSettings);
-        fileMenu.add(menuItemAbout);
-        fileMenu.addSeparator();
-        fileMenu.add(menuItemExit);
+        infoMenu.add(menuItemSettings);
+        infoMenu.add(menuItemAbout);
+        infoMenu.addSeparator();
+        infoMenu.add(menuItemExit);
 
-        add(fileMenu);
+        add(infoMenu);
+
+        JMenu saveMenu = new JMenu("Save");
+        saveMenu.setForeground(Color.WHITE);
+        saveMenu.setFont(new Font("Inter", Font.BOLD, 15));
+
+        saveMenu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                saveMenu.setForeground(new Color(0, 255, 0));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                saveMenu.setForeground(Color.WHITE);
+            }
+        });
+
+        add(saveMenu);
     }
 
     protected void paintComponent(Graphics g) {

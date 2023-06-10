@@ -1,3 +1,5 @@
+package CustomGUI;
+
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,9 +1,11 @@
+package Objects;
+
 public class Grade {
     int grade;
     boolean lk;
     String subject;
 
-    Grade(int grade, boolean lk, String subject) {
+    public Grade(int grade, boolean lk, String subject) {
         this.grade = grade;
         this.lk = lk;
         this.subject = subject;

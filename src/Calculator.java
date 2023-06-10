@@ -1,3 +1,9 @@
+import CustomGUI.CustomButton;
+import CustomGUI.CustomMessage;
+import CustomGUI.CustomTextField;
+import Objects.Grade;
+import Objects.MyFrame;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -22,7 +28,6 @@ public class Calculator {
 
     Calculator(MyFrame myFrame) {
         this.myFrame = myFrame;
-
         subjects = addSubjects(subjects);
 
         panelNORTH = addComponentsNORTH(new JPanel());
@@ -32,6 +37,7 @@ public class Calculator {
         myFrame.add(panelCENTER, BorderLayout.CENTER);
 
         myFrame.setVisible(true);
+
     }
 
     public ArrayList<String> addSubjects(ArrayList<String> subjects) {
@@ -160,7 +166,6 @@ public class Calculator {
 
         labelTable = new JLabel();
         labelTable.setFont(new Font("Inter", Font.PLAIN, 18));
-        labelTable.setBorder(new LineBorder(Color.BLACK, 5));
 
         flowPanel.add(textGradePoint);
         flowPanel.add(textField);
@@ -190,12 +195,32 @@ public class Calculator {
         DecimalFormat df = new DecimalFormat("#.#");
         String formattedSum = df.format(sum);
 
+
         JLabel labelHeadline = new JLabel("Notendurchschnitt: " + formattedSum);
-        labelHeadline.setFont(inter);
+        labelHeadline.setFont(new Font("inter", Font.BOLD, 26));
 
         panelNORTH.removeAll();
         panelNORTH.add(labelHeadline);
-        panelCENTER.add(labelTable);
+
+
+        JPanel flowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        flowPanel.setPreferredSize(new Dimension(300, 500));
+
+        CustomButton returnButton = new CustomButton("return", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, new Color(104, 35, 128), 285, 50);
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myFrame.remove(panelNORTH);
+                myFrame.remove(panelCENTER);
+                new Calculator(myFrame);
+            }
+        });
+        flowPanel.add(labelTable);
+        flowPanel.add(returnButton);
+
+        panelCENTER.add(flowPanel);
+
+
         myFrame.add(panelNORTH, BorderLayout.NORTH);
         myFrame.add(panelCENTER, BorderLayout.CENTER);
 
