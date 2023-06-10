@@ -9,14 +9,15 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class RoundedGradientButton extends JButton {
+public class CustomButton extends JButton {
     private Color startColor;
     private Color endColor;
     private final Color textColor;
     private final Color pressedColor;
     private boolean isPressed;
+    private boolean isEntered;
 
-    public RoundedGradientButton(String label, Color startColor, Color endColor, Color textColor, Color pressedColor, int width, int height) {
+    public CustomButton(String label, Color startColor, Color endColor, Color textColor, Color pressedColor, int width, int height) {
         super(label);
         this.startColor = startColor;
         this.endColor = endColor;
@@ -46,6 +47,19 @@ public class RoundedGradientButton extends JButton {
                 int shadowOffset = 3;
                 setLocation(getX() - shadowOffset, getY() - shadowOffset);
             }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                isEntered = true;
+                repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                isEntered = false;
+                repaint();
+            }
+
         });
     }
 
@@ -73,13 +87,23 @@ public class RoundedGradientButton extends JButton {
         g2d.fillRoundRect(0, 0, width - shadowOffset, height - shadowOffset, shadowArcSize, shadowArcSize);
 
         // Draw text
-        g2d.setColor(textColor);
-        g2d.setFont(getFont());
-        int stringWidth = g2d.getFontMetrics().stringWidth(getText());
-        int stringHeight = g2d.getFontMetrics().getHeight();
-        int x = (width - stringWidth) / 2;
-        int y = (height - stringHeight) / 2 + g2d.getFontMetrics().getAscent();
-        g2d.drawString(getText(), x, y);
+        if (!isEntered) {
+            g2d.setColor(textColor);
+            g2d.setFont(getFont());
+            int stringWidth = g2d.getFontMetrics().stringWidth(getText());
+            int stringHeight = g2d.getFontMetrics().getHeight();
+            int x = (width - stringWidth) / 2;
+            int y = (height - stringHeight) / 2 + g2d.getFontMetrics().getAscent();
+            g2d.drawString(getText(), x, y);
+        } else {
+            g2d.setColor(new Color(33, 215, 33));
+            g2d.setFont(getFont());
+            int stringWidth = g2d.getFontMetrics().stringWidth(getText());
+            int stringHeight = g2d.getFontMetrics().getHeight();
+            int x = (width - stringWidth) / 2;
+            int y = (height - stringHeight) / 2 + g2d.getFontMetrics().getAscent();
+            g2d.drawString(getText(), x, y);
+        }
 
         g2d.dispose();
     }

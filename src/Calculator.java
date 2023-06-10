@@ -59,7 +59,7 @@ public class Calculator {
         comboBox.setFont(inter);
         comboBox.setBorder(new LineBorder(Color.BLACK, 1));
 
-        RoundedGradientButton checkBox = new RoundedGradientButton("LK", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, new Color(104, 35, 128), 85, 50);
+        CustomButton checkBox = new CustomButton("LK", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, new Color(104, 35, 128), 85, 50);
         checkBox.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,7 +90,7 @@ public class Calculator {
         textGradePoint.setPreferredSize(new Dimension(230, 50));
         textGradePoint.setFont(new Font("inter", Font.BOLD, 25));
 
-        RoundedTextField textField = new RoundedTextField(285, 50);
+        CustomTextField textField = new CustomTextField(285, 50);
 
         textField.addKeyListener(new KeyAdapter() {
             @Override
@@ -138,7 +138,7 @@ public class Calculator {
             }
         });
 
-        RoundedGradientButton submitButton = new RoundedGradientButton("submit", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, new Color(104, 35, 128), 285, 50);
+        CustomButton submitButton = new CustomButton("submit", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, new Color(104, 35, 128), 285, 50);
         submitButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {

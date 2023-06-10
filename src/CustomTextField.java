@@ -7,11 +7,11 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 
-public class RoundedTextField extends JTextField {
+public class CustomTextField extends JTextField {
     private final Color backgroundColor;
     private final Color shadowColor;
 
-    public RoundedTextField(int WIDTH, int HEIGHT) {
+    public CustomTextField(int WIDTH, int HEIGHT) {
         setOpaque(false);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFont(new Font("inter", Font.PLAIN, 20));
