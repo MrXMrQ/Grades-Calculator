@@ -20,8 +20,9 @@ public class Calculator {
     private boolean lk = false;
     private JComboBox<String> comboBox;
 
-    Calculator() {
-        myFrame = new MyFrame();
+    Calculator(MyFrame myFrame) {
+        this.myFrame = myFrame;
+
         subjects = addSubjects(subjects);
 
         panelNORTH = addComponentsNORTH(new JPanel());
@@ -63,7 +64,7 @@ public class Calculator {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!lk) {
-                    checkBox.setColor(new Color(0, 100, 0), new Color(0, 255, 0));
+                    checkBox.setColor(new Color(33, 215, 33), new Color(33, 215, 33));
                     lk = true;
                 } else {
                     checkBox.setColor(new Color(142, 68, 173), new Color(155, 89, 182));
@@ -148,7 +149,11 @@ public class Calculator {
                     SwingUtilities.updateComponentTreeUI(myFrame);
                     calculator();
                 } else {
-                    JOptionPane.showMessageDialog(myFrame, "Wähle noch " + lkCount + " LK/LK´s!");
+                    if(lkCount == 2) {
+                        JOptionPane.showMessageDialog(myFrame, "Wähle noch " + lkCount + " LK´s!");
+                    } else {
+                        JOptionPane.showMessageDialog(myFrame, "Wähle noch " + lkCount + " LK!");
+                    }
                 }
             }
         });
@@ -179,21 +184,21 @@ public class Calculator {
             sum += grades.get(i).getGrade();
         }
 
-        panelNORTH.removeAll();
-
         sum = sum / grades.size();
         sum = (17 - sum) / 3;
 
         DecimalFormat df = new DecimalFormat("#.#");
         String formattedSum = df.format(sum);
 
-        JLabel label = new JLabel("Notendurchschnitt: " + formattedSum);
-        label.setFont(inter);
+        JLabel labelHeadline = new JLabel("Notendurchschnitt: " + formattedSum);
+        labelHeadline.setFont(inter);
 
-        panelNORTH.add(label);
+        panelNORTH.removeAll();
+        panelNORTH.add(labelHeadline);
         panelCENTER.add(labelTable);
         myFrame.add(panelNORTH, BorderLayout.NORTH);
         myFrame.add(panelCENTER, BorderLayout.CENTER);
+
         SwingUtilities.updateComponentTreeUI(myFrame);
     }
 

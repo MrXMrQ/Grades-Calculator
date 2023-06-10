@@ -1,4 +1,4 @@
-import javax.swing.JTextField;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,7 +9,6 @@ import java.awt.RenderingHints;
 
 public class RoundedTextField extends JTextField {
     private final Color backgroundColor;
-    private final Color borderColor;
     private final Color shadowColor;
 
     public RoundedTextField(int WIDTH, int HEIGHT) {
@@ -18,7 +17,6 @@ public class RoundedTextField extends JTextField {
         setFont(new Font("inter", Font.PLAIN, 20));
 
         backgroundColor = new Color(240, 240, 240);
-        borderColor = new Color(200, 200, 200);
         shadowColor = new Color(0, 0, 0, 50);
     }
 
