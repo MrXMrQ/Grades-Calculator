@@ -96,7 +96,7 @@ public class CustomButton extends JButton {
             int y = (height - stringHeight) / 2 + g2d.getFontMetrics().getAscent();
             g2d.drawString(getText(), x, y);
         } else {
-            g2d.setColor(new Color(33, 215, 33));
+            g2d.setColor(new Color(0, 255, 0));
             g2d.setFont(getFont());
             int stringWidth = g2d.getFontMetrics().stringWidth(getText());
             int stringHeight = g2d.getFontMetrics().getHeight();

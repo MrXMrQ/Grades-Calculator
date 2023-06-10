@@ -103,12 +103,12 @@ public class Calculator {
         textField.addActionListener(e -> {
             String input = textField.getText().trim();
             if (input.isEmpty()) {
-                JOptionPane.showMessageDialog(myFrame, "Das Feld darf nicht leer sein!");
+                new CustomMessage(myFrame, "Das Feld darf nicht leer sein!", "Error", "OK");
             } else {
                 try {
                     if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 15) {
                         if (comboBox.getItemCount() == 0) {
-                            JOptionPane.showMessageDialog(myFrame, "Alle Fächer wurden vergeben!");
+                            new CustomMessage(myFrame, "Alle Fächer vergeben!", "Error", "OK");
                             textField.setText("");
                         } else {
                             if (lk && lkCount >= 1) {
@@ -118,7 +118,7 @@ public class Calculator {
                                 removeContent();
                                 lkCount--;
                             } else if (lk) {
-                                JOptionPane.showMessageDialog(myFrame, "Es wurden bereits zwei LK´s festgelegt!");
+                                new CustomMessage(myFrame, "Es wurden bereits 2 LK´s festgelegt!", "Error", "OK");
                             } else {
                                 grades.add(new Grade(Integer.parseInt(input), lk, (String) comboBox.getSelectedItem()));
                                 setText();
@@ -129,11 +129,11 @@ public class Calculator {
                         }
                     } else {
                         textField.setText("");
-                        JOptionPane.showMessageDialog(myFrame, "Die Zahl muss in dem Bereich 1 - 15 liegen!");
+                        new CustomMessage(myFrame, "Der Notenpunkt muss zwischen 1 und 15 liegen", "Error", "OK");
                     }
                 } catch (NumberFormatException ex) {
                     textField.setText("");
-                    JOptionPane.showMessageDialog(myFrame, "Die Zahl muss in dem Bereich 1 - 15 liegen!");
+                    new CustomMessage(myFrame, "Der Notenpunkt muss zwischen 1 und 15 liegen", "Error", "OK");
                 }
             }
         });
@@ -149,10 +149,10 @@ public class Calculator {
                     SwingUtilities.updateComponentTreeUI(myFrame);
                     calculator();
                 } else {
-                    if(lkCount == 2) {
-                        JOptionPane.showMessageDialog(myFrame, "Wähle noch " + lkCount + " LK´s!");
+                    if (lkCount == 2) {
+                        new CustomMessage(myFrame, "Wähle noch " + lkCount + " LK´s!", "Error", "OK");
                     } else {
-                        JOptionPane.showMessageDialog(myFrame, "Wähle noch " + lkCount + " LK!");
+                        new CustomMessage(myFrame, "Wähle noch " + lkCount + " LK!", "Error", "OK");
                     }
                 }
             }

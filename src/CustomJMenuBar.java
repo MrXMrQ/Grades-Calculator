@@ -10,7 +10,7 @@ class CustomJMenuBar extends JMenuBar {
     private final Color startColor;
     private final Color endColor;
 
-    public CustomJMenuBar(Color startColor, Color endColor) {
+    public CustomJMenuBar(Color startColor, Color endColor, Component destination) {
         this.startColor = startColor;
         this.endColor = endColor;
 
@@ -21,7 +21,7 @@ class CustomJMenuBar extends JMenuBar {
         fileMenu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                fileMenu.setForeground(new Color(33, 215, 33));
+                fileMenu.setForeground(new Color(0, 255, 0));
             }
 
             @Override
@@ -37,15 +37,14 @@ class CustomJMenuBar extends JMenuBar {
         menuItemSettings.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CustomMessage(CustomJMenuBar.this, "Enter  = confirm grade\nConfirm = average grade\nLK = confirm subject as LK", "Settings", "Ok");
-
+                new CustomMessage(destination, "Press \"Enter\" to confirm you grade\nClick \"Submit\" to calculate your average grade\nSelect \"LK\" to confirm the choose subject as an LK", "Setting", "OK");
             }
         });
 
         menuItemAbout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CustomMessage(CustomJMenuBar.this, "Enter  = confirm grade\nConfirm = average grade\nLK = confirm subject as LK", "Settings", "Ok");
+                new CustomMessage(destination, "Calculate your grades with an impressive design!\nHow can you utilize it? Find out more in the Settings!\nDouble the weight for advanced courses (LKs)!", "Settings", "Ok");
             }
         });
 
