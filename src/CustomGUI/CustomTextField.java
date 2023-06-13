@@ -41,6 +41,21 @@ public class CustomTextField extends JTextField {
         g2d.dispose();
 
         super.paintComponent(g);
+
+        // Paint the hint text if necessary
+        if (getText().isEmpty() && !hasFocus()) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setColor(Color.GRAY);
+            g2.setFont(getFont().deriveFont(Font.ITALIC));
+
+            // Calculate the position to display the hint text
+            int x = getInsets().left + 5;
+            int y = (getHeight() - g2.getFontMetrics().getHeight()) / 2 + g2.getFontMetrics().getAscent();
+
+            // Draw the hint text
+            g2.drawString("NOTENPUNKT", x, y);
+            g2.dispose();
+        }
     }
 
     @Override

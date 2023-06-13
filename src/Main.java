@@ -1,6 +1,5 @@
 import CustomGUI.CustomJMenuBar;
 import Objects.MyFrame;
-
 import java.awt.*;
 
 public class Main {

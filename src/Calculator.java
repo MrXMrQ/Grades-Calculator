@@ -27,14 +27,34 @@ public class Calculator {
     private JComboBox<String> comboBox;
 
     Calculator(MyFrame myFrame) {
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setLayout(new BorderLayout());
+
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+
+                g2d.setPaint(new GradientPaint(0, 0, new Color(100, 0, 0), 0, getHeight(), new Color(100, 100, 0)));
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+
+                g2d.dispose();
+            }
+        };
+
+        layeredPane.add(backgroundPanel, BorderLayout.CENTER, 2);
+
         this.myFrame = myFrame;
         subjects = addSubjects(subjects);
 
         panelNORTH = addComponentsNORTH(new JPanel());
         panelCENTER = addComponentsCENTER(new JPanel());
 
-        myFrame.add(panelNORTH, BorderLayout.NORTH);
-        myFrame.add(panelCENTER, BorderLayout.CENTER);
+        layeredPane.add(panelNORTH, BorderLayout.NORTH, 1);
+        layeredPane.add(panelCENTER, BorderLayout.CENTER, 1);
+
+        myFrame.add(layeredPane);
 
         myFrame.setVisible(true);
 
@@ -63,7 +83,6 @@ public class Calculator {
         addSubjects();
         comboBox.setPreferredSize(new Dimension(200, 50));
         comboBox.setFont(inter);
-        comboBox.setBorder(new LineBorder(Color.BLACK, 1));
 
         CustomButton checkBox = new CustomButton("LK", new Color(142, 68, 173), new Color(155, 89, 182), Color.WHITE, new Color(104, 35, 128), 85, 50);
         checkBox.addActionListener(new AbstractAction() {
@@ -76,7 +95,7 @@ public class Calculator {
                     checkBox.setColor(new Color(142, 68, 173), new Color(155, 89, 182));
                     lk = false;
                 }
-
+                myFrame.repaint();
             }
         });
 
